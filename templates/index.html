@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="./static/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://kit.fontawesome.com/5fee7eb1ed.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="nav-bar">
+        <div class="topnav">
+            <a href="#">Giới thiệu</a>
+            <a href="#">Tuỳ chọn</a>
+            <a href="#">Liên hệ</a> {% if current_user.is_authenticated %}
+            <a href="/logout" class="login">
+                Đăng xuất
+            </a>
+            <div>
+                User: {{ name }}
+            </div> {% else %}
+
+            <a href="/signup" class="login">
+                Đăng ký
+            </a>
+            <a href="/login" class="login">
+                Đăng nhập
+            </a> {% endif %}
+
+        </div>
+        <div class="search-bar">
+            <a class="logo-details" href="#">
+                <img width="110" height="72" src="./static/img/logo.png">
+                <span class="logo_name">CESTM</span>
+
+            </a>
+            <div class="wrap">
+                <div class="search">
+                    <input type="text" class="searchTerm" placeholder="Nhập từ khoá để tìm kiếm">
+                    <button type="submit" class="searchButton">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="side-menu">
+            <div class="folder-tree-wrapper">
+                <ul class="folder-tree">
+                    <li><i class="fa fa-folder"></i> Tất cả
+
+                        <ul class="sub-folder-tree">
+                            {%for i in category%}
+                            <li><i class="fa fa-folder"></i> {{i["doc_type"]}}
+                                <ul>
+                                    {%for j in i["sub_file"][0:3]%}
+                                    <li><i class="fas fa-file"></i> {{j}}</li>
+                                    {%endfor%}
+                                </ul>
+                            </li>
+
+                            {%endfor%}
+                        </ul>
+                </ul>
+
+            </div>
+
+        </div>
+        <div class="body-content">
+
+            <div class="row">
+                <div class="leftcolumn">
+                    {%for i in data%}
+                    <div class="card">
+                        <a href="/viewPDF" style="color: black"><h2>{{i["docname"]}}</h2></a>
+                        <h5>{{i["category"]}}</h5>
+                        <p>Định dạng:{{i["file_extention"]}}</p>
+                        <p>{{i["review_text"]}}</p>
+                    </div>
+                    {%endfor%}
+
+                </div>
+            </div>
+        </div>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+        <script src="./static/script.js"></script>
+
+</body>
+
+</html>
